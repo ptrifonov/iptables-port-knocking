@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./main.css" />
+		<title>Plamen's portknocker</title>
+		<script src="./scripts/site.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Iptables port knocking config generator</h1>
+			<div class="box">
+				<p>
+					Настоящата програма-генератор, може да генерира динамични правила за
+					осъществяване на port knocking на база въведените параметри, като
+					генерираният скрипт представлява bash shell script, който може да се
+					изпълни на всяка Linux дистрибуция, която има инсталиран iptables
+					пакет (забележка: iptables е kernel пакет и е интегриран във всяка ОС
+					дистрибуция на базата на Линукс, освен ако не е експлицитно изключен.)
+				</p>
+				<p>
+					След натискане на бутона "Генерирай" в текстовия прозорец най-долу ще
+					получите готовият скрипт, който може да поставите чрез команда paste в
+					нов текстов документ и да го запазите с разширение .sh, който вече
+					става изпълним в Linux среда.
+				</p>
+				<div class="author-box">
+					<address>
+						Изработил: Пламен Д. Трифонов<br />
+						Нов Български Университет, ул. Монтевидео 21, гр. София, 1618<br />
+						Департамент "Телекомуникации"<br />
+						plamen.trifonov@centralyca.com<br />
+						<br />
+						Възложил: доц. д-р Георги Петров<br />
+						Нов Български Университет, ул. Монтевидео 21, гр. София, 1618<br />
+						Департамент "Телекомуникации"<br />
+					</address>
+				</div>
+			</div>
+
+			<div class="box">
+				<h3>Входни параметри</h3>
+				<hr />
+				<h4>Базови данни</h4>
+				<p>
+					Необходимо е да посочите, кои портове, зад които има действащи услуги
+					искате да подсигурите. Възможно е въвеждане на повече от един порт,
+					като ги разделяте със запетая или интервал и запетая.
+				</p>
+				<p>
+					Вторият необходим параметър е времето, за което портът/портовете ще
+					останат отворени след сработване на port knocking ruleset-a.
+				</p>
+				<p>
+					И третият параметър е да се посочи, колко време между отделните
+					почуквания да се изчаква преди конекцията да бъде ресетната в
+					първоначална позиция.
+				</p>
+				<div class="control-group">
+					<label>Кои портове искате да подсигурите: </label>
+					<input
+						id="portsToSecure"
+						name="portsToSecure"
+						type="text"
+						title="Ако въвеждате повече от един порт, разделете ги със запетая."
+						onchange="handlePortsToSecureOnChange()"
+						class="input-control"
+						placeholder="напр. 22, 1703"
+					/>
+				</div>
+				<div class="control-group">
+					<label>Колко време портът да остане отворен (s): </label>
+					<input
+						id="timeout"
+						name="timeout"
+						type="number"
+						onchange="handleTimeoutOnChange()"
+						value="30"
+						class="input-control"
+					/>
+				</div>
+				<div class="control-group">
+					<label>Максимално време между пакетите (s): </label>
+					<input
+						id="timeoutBetweenPackets"
+						name="timeoutBetweenPackets"
+						type="number"
+						onchange="handleTimeoutBetweenPackets()"
+						value="10"
+						class="input-control"
+					/>
+				</div>
+				<hr />
+				<h4>Създаване на knocking шаблона</h4>
+				<p>
+					Всяка една комбинация от порт и транспортен протокол ще добави нов
+					layer of security. Колкото повече комбинации имаме токова по-сигурен е
+					процеса, но и по усложнен.
+				</p>
+				<form>
+					<div class="control-group">
+						<label for="portNumber">Порт: </label>
+						<input id="portNumber" type="number" min="1" max="65535" required />
+					</div>
+					<div class="control-group">
+						<label for="transportProtocol">Транспортен протокол:</label>
+						<select id="transportProtocol">
+							<option value="tcp">TCP</option>
+							<option value="udp">UDP</option>
+						</select>
+					</div>
+					<button type="button" onclick="addNewRuleToPattern()">Добави</button>
+				</form>
+			</div>
+			<h4>Шаблон на последователността</h4>
+			<textarea id="pattern" disabled></textarea>
+
+			<h4>Скрипт</h4>
+			<hr />
+			<div class="control-group">
+				<p>
+					След като се уверите, че данните, които сте въвели са коректни в
+					текстовият прозорец по-долу ще се генерира вашият конфигурационен
+					скрипт.
+				</p>
+				<button onclick="generateScript()">Генерирай</button>
+				<button onclick="handleOnCopy()">Копирай</button>
+			</div>
+
+			<textarea id="script"></textarea>
+		</div>
+	</body>
+</html>

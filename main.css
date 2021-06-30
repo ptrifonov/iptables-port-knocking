@@ -1,0 +1,52 @@
+html,
+body {
+	width: 100%;
+	overflow-x: hidden;
+}
+
+label {
+	display: inline-block;
+}
+
+textarea {
+	width: 100%;
+	height: 150px;
+}
+
+.container {
+	max-width: 680px;
+	padding: 0.2rem;
+	margin: 0 auto;
+	text-align: justify;
+}
+
+.box {
+	display: block;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.control-group {
+	display: block;
+	width: 100%;
+	margin: 10px 0;
+}
+
+.control-group label {
+	margin-left: auto;
+}
+
+.input-control {
+	display: inline;
+	width: 350px;
+	float: right;
+}
+
+#summary {
+	max-width: 500px;
+	margin-top: 2px;
+	margin-bottom: 20px;
+	font-style: italic;
+	text-align: justify;
+}
