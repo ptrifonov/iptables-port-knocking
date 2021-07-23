@@ -1,13 +1,16 @@
+//Основен обект, в който се съхраняват входните данни подадени от потребителя и в член-променливата script се пази скрипта
 const mainObj = {
 	portsToSecure: [],
 	patternRules: [],
-	timeoout: 0,
+	timeoout: 30,
 	timeoutBetweenPackets: 10,
 	script: "",
 };
 
+//Масив, който се използва за рендериране на отделните правила по красив начин
 const beautifulArray = [];
 
+//Функция, която добавя правило/условие към шаблона за port knocking
 const addNewRuleToPattern = () => {
 	let selectedPort = document.getElementById("portNumber").value;
 	let transportProtocol = document.getElementById("transportProtocol").value;
@@ -27,17 +30,20 @@ const addNewRuleToPattern = () => {
 	document.getElementById("pattern").append(string);
 };
 
+//Функция за управление за събитие
 const handlePortsToSecureOnChange = () => {
 	let portsToSecure = document.getElementById("portsToSecure").value.split(",");
 	mainObj.portsToSecure = portsToSecure.map((el) => el.trim());
 	console.log(mainObj.portsToSecure);
 };
 
+//Функция за управление за събитие
 const handleTimeoutOnChange = () => {
 	let timeout = document.getElementById("timeout").value;
 	mainObj.timeoout = timeout;
 };
 
+//Функция за управление за събитие
 const handleTimeoutBetweenPackets = () => {
 	let timeoutBetweenPackets = document.getElementById(
 		"timeoutBetweenPackets"
@@ -45,13 +51,17 @@ const handleTimeoutBetweenPackets = () => {
 	mainObj.timeoutBetweenPackets = timeoutBetweenPackets;
 };
 
+//Функция за управление за събитие
 const handleOnCopy = () => {
 	let textarea = document.getElementById("script");
 	textarea.select();
 	document.execCommand("copy");
 };
 
+//Основна функция, която генерира скрипта на базата на данните от mainObj
 const generateScript = () => {
+	document.getElementById("script").value = "";
+
 	console.log(mainObj.portsToSecure);
 	if (mainObj.portsToSecure.length === 0 || mainObj.patternRules === []) {
 		alert("Некоректни входни данни!");
