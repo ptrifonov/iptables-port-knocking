@@ -58,6 +58,11 @@ const handleOnCopy = () => {
 	document.execCommand("copy");
 };
 
+//Функция за управление за събитие. Изчиства всичко
+const handleClearAll = () => {
+	location.reload();
+};
+
 //Основна функция, която генерира скрипта на базата на данните от mainObj
 const generateScript = () => {
 	document.getElementById("script").value = "";
